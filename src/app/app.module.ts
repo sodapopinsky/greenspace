@@ -7,7 +7,7 @@ import {HomePage} from '../pages/home/home';
 import { Geolocation } from '@ionic-native/geolocation';
 import {MyApp} from './app.component';
 import {GoogleMapCoreModule} from './modules/google-map.module';
-
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 @NgModule({
   declarations: [
     MyApp,
@@ -25,6 +25,7 @@ import {GoogleMapCoreModule} from './modules/google-map.module';
   ],
   providers: [
     StatusBar,
+    ScreenOrientation,
     SplashScreen,
     Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

@@ -1,4 +1,5 @@
 import {Component, ElementRef, ViewChild, OnInit, NgZone} from '@angular/core';
+import {Platform} from 'ionic-angular';
 import {ILocationData} from '../../app/interface/ILocationData';
 import {IMarkerIcon} from '../../app/interface/IMarkerIcon';
 import {AngularGoogleMapService} from '../../app/modules/google-map.module';
@@ -18,19 +19,10 @@ export class HomePage implements OnInit {
   selectedIcon: IMarkerIcon;
   currentLocationIcon: IMarkerIcon;
 
-  constructor(public angularGoogleMapService: AngularGoogleMapService, private zone: NgZone) {
+  constructor(public angularGoogleMapService: AngularGoogleMapService, private zone: NgZone, private platform: Platform) {
   }
 
   async ngOnInit() {
-    /**
-     * WIP
-     */
-    navigator.geolocation.getCurrentPosition(this.showPosition, this.locationError, {
-      enableHighAccuracy: true,
-      maximumAge: 1000000,
-      timeout: 2000
-    });
-
     /**
      * Initialize google variable
      */
@@ -83,12 +75,22 @@ export class HomePage implements OnInit {
   loadMap() {
     this.map = new this.google.maps.Map(this.mapElement.nativeElement, {
       zoom: 12,
-      center: {lat: 23.1935255, lng: 72.5973378}
+      center: {lat: 23.0400705, lng: 72.5292933}
     });
 
-    this.addMarker({lat: 23.1935255, lng: 72.5973378}, this.currentLocationIcon, -1);
+    this.addMarker({lat: 23.0400705, lng: 72.5292933}, this.currentLocationIcon, -1);
     this.locationData.forEach((location, index) => {
       this.addMarker({lat: location.lat, lng: location.lng}, this.defaultIcon, location.id);
+    });
+
+
+    /**
+     * For get user current location
+     */
+    navigator.geolocation.getCurrentPosition(this.showPosition.bind(this), this.locationError, {
+      enableHighAccuracy: true,
+      maximumAge: 1000000,
+      timeout: 2000
     });
   }
 
@@ -129,6 +131,7 @@ export class HomePage implements OnInit {
         id: id
       }
     });
+
     this.markers.push(marker);
 
     this.google.maps.event.addListener(marker, 'click', () => {
@@ -143,18 +146,26 @@ export class HomePage implements OnInit {
   }
 
   /**
-   * WIP
+   * Set current location and marker
    */
   showPosition(position) {
     const currentLocation = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     };
-    console.log('currentLocation ', currentLocation);
+
+    this.markers.forEach((marker, index) => {
+      if (marker.data.id === -1) {
+        this.map.setCenter(currentLocation);
+        marker.setPosition(currentLocation);
+      }
+    });
+
+
   }
 
   /**
-   * WIP
+   * For shows error when get current location
    */
   locationError(error) {
     console.log('error ', JSON.stringify(error));
