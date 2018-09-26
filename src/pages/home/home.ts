@@ -1,5 +1,4 @@
 import {Component, ElementRef, ViewChild, OnInit, NgZone} from '@angular/core';
-import {Platform} from 'ionic-angular';
 import {ILocationData} from '../../app/interface/ILocationData';
 import {IMarkerIcon} from '../../app/interface/IMarkerIcon';
 import {AngularGoogleMapService} from '../../app/modules/google-map.module';
@@ -11,15 +10,16 @@ import {AngularGoogleMapService} from '../../app/modules/google-map.module';
 export class HomePage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
+  google: any;
+  currentLocationMarker: any;
   locationData: Array<ILocationData>;
-  google;
   public selectedLocationId: number;
   markers: any = [];
   defaultIcon: IMarkerIcon;
   selectedIcon: IMarkerIcon;
   currentLocationIcon: IMarkerIcon;
 
-  constructor(public angularGoogleMapService: AngularGoogleMapService, private zone: NgZone, private platform: Platform) {
+  constructor(public angularGoogleMapService: AngularGoogleMapService, private zone: NgZone) {
   }
 
   async ngOnInit() {
@@ -68,7 +68,6 @@ export class HomePage implements OnInit {
     this.loadMap();
   }
 
-
   /**
    * THis function for load map
    */
@@ -87,10 +86,20 @@ export class HomePage implements OnInit {
     /**
      * For get user current location
      */
-    navigator.geolocation.getCurrentPosition(this.showPosition.bind(this), this.locationError, {
+    navigator.geolocation.getCurrentPosition(this.showPosition.bind(this), function (error) {
+      console.log('error getCurrentPosition ', JSON.stringify(error));
+    }, {
       enableHighAccuracy: true,
       maximumAge: 1000000,
       timeout: 2000
+    });
+
+    navigator.geolocation.watchPosition(this.watchLocationFound.bind(this), function (error) {
+      console.log('error watchPosition ', JSON.stringify(error));
+    }, {
+      enableHighAccuracy: true,
+      maximumAge: 1000000,
+      timeout: 600000
     });
   }
 
@@ -132,6 +141,9 @@ export class HomePage implements OnInit {
       }
     });
 
+    if (id === -1) {
+      this.currentLocationMarker = marker;
+    }
     this.markers.push(marker);
 
     this.google.maps.event.addListener(marker, 'click', () => {
@@ -153,22 +165,16 @@ export class HomePage implements OnInit {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     };
-
-    this.markers.forEach((marker, index) => {
-      if (marker.data.id === -1) {
-        this.map.setCenter(currentLocation);
-        marker.setPosition(currentLocation);
-      }
-    });
-
-
+    this.map.setCenter(currentLocation);
+    this.currentLocationMarker.setPosition(currentLocation);
   }
 
   /**
-   * For shows error when get current location
+   * For watch current user location
    */
-  locationError(error) {
-    console.log('error ', JSON.stringify(error));
+  watchLocationFound(position) {
+    this.currentLocationMarker.setPosition(new this.google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+    this.map.panTo(new this.google.maps.LatLng(position.coords.latitude, position.coords.longitude));
   }
 
 }
