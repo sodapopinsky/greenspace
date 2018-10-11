@@ -1,4 +1,5 @@
 import {Component, ElementRef, ViewChild, OnInit, NgZone} from '@angular/core';
+import * as nipplejs from 'nipplejs';
 import {ILocationData} from '../../app/interface/ILocationData';
 import {IMarkerIcon} from '../../app/interface/IMarkerIcon';
 import {AngularGoogleMapService} from '../../app/modules/google-map.module';
@@ -9,6 +10,7 @@ import {AngularGoogleMapService} from '../../app/modules/google-map.module';
 })
 export class HomePage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('joystick') joystickElement: ElementRef;
   map: any;
   google: any;
   currentLocationMarker: any;
@@ -20,6 +22,18 @@ export class HomePage implements OnInit {
   currentLocationIcon: IMarkerIcon;
 
   constructor(public angularGoogleMapService: AngularGoogleMapService, private zone: NgZone) {
+  }
+
+  ngAfterViewInit() {
+    let options = {
+      zone: this.joystickElement.nativeElement,
+      mode: 'static',
+      position: {left: '50%', top: '20%'},
+      color: 'gray',
+      size: 250
+    };
+    nipplejs.create(options);
+
   }
 
   async ngOnInit() {
