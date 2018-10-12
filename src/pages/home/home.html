@@ -15,17 +15,14 @@
         <div #joystick id="joystick"></div>
       </ion-row>
 
-      <ion-row>
-        <ion-list ion-item *ngFor="let location of locationData; let i = index"
+      <ion-row class="location-list">
+        <ion-list class="location-list-label" ion-item *ngFor="let location of locationData; let i = index"
                   [ngClass]="{'location-selected':location.id===selectedLocationId }"
                   (click)="toggleItemSelection(location.id)">
-          <div>
-            <p>{{location.name}} </p>
-            <p>Lat: {{location.lat}} </p>
-            <p>Lon: {{location.lng}} </p>
-            <p>Val: {{location.val}} </p>
-          </div>
-
+          <p>{{location.name}} </p>
+          <p>Lat: {{location.lat}} </p>
+          <p>Lon: {{location.lng}} </p>
+          <p>Val: {{location.val}} </p>
         </ion-list>
       </ion-row>
 

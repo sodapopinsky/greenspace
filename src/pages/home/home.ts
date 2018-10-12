@@ -28,9 +28,9 @@ export class HomePage implements OnInit {
     let options = {
       zone: this.joystickElement.nativeElement,
       mode: 'static',
-      position: {left: '50%', top: '20%'},
+      position: {left: '50%', top: '22%', bottom: '22%'},
       color: 'gray',
-      size: 250
+      size: 120
     };
     nipplejs.create(options);
 
@@ -77,7 +77,9 @@ export class HomePage implements OnInit {
      */
     this.locationData = [
       {name: 'Pi 12345', lat: 23.2233, lng: 72.6477, val: 5.3, id: 100},
-      {name: 'Pi 78954', lat: 23.1953, lng: 72.6333, val: 5.3, id: 101}
+      {name: 'Pi 12346', lat: 23.2333, lng: 72.6577, val: 5.3, id: 101},
+      {name: 'Pi 78954', lat: 23.1953, lng: 72.6333, val: 5.3, id: 102},
+      {name: 'Pi 78955', lat: 23.2053, lng: 72.6433, val: 5.3, id: 103}
     ];
     this.loadMap();
   }
