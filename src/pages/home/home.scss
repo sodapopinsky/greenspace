@@ -21,11 +21,11 @@ page-home {
     margin-bottom: 6px !important;
   }
   .location-list {
-    height: 56%;
-    overflow: auto
+    height: 55%;
+    overflow-y: auto !important;
   }
-  .location-list-label {
-    margin: 8px 0px 8px 0px !important;
+  .location-list-view {
+    width: 100%;
+    border-bottom: 1px solid #dedede;
   }
-
 }

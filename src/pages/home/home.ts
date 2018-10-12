@@ -78,8 +78,10 @@ export class HomePage implements OnInit {
     this.locationData = [
       {name: 'Pi 12345', lat: 23.2233, lng: 72.6477, val: 5.3, id: 100},
       {name: 'Pi 12346', lat: 23.2333, lng: 72.6577, val: 5.3, id: 101},
-      {name: 'Pi 78954', lat: 23.1953, lng: 72.6333, val: 5.3, id: 102},
-      {name: 'Pi 78955', lat: 23.2053, lng: 72.6433, val: 5.3, id: 103}
+      {name: 'Pi 12347', lat: 23.2433, lng: 72.6677, val: 5.3, id: 102},
+      {name: 'Pi 78954', lat: 23.1953, lng: 72.6333, val: 5.3, id: 103},
+      {name: 'Pi 78955', lat: 23.2053, lng: 72.6433, val: 5.3, id: 104},
+      {name: 'Pi 78956', lat: 23.2153, lng: 72.6533, val: 5.3, id: 105}
     ];
     this.loadMap();
   }
