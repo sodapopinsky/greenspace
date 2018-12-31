@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content no-bounce>
   <ion-row class="full-height">
     <ion-col col-9>
       <div id="floating-panel">
@@ -12,24 +12,18 @@
     <ion-col col-3>
 
       <ion-row class="virtual-joystick">
-        <div>
+        <div #joystick id="joystick"></div>
+      </ion-row>
+      <ion-row class="location-list">
+        <div class="location-list-view" *ngFor="let location of locationData; let i = index"
+             [ngClass]="{'location-selected':location.id===selectedLocationId }"
+             (click)="toggleItemSelection(location.id)">
+          <p>{{location.name}} </p>
+          <p>Lat: {{location.lat}} </p>
+          <p>Lon: {{location.lng}} </p>
+          <p>Val: {{location.val}} </p>
         </div>
       </ion-row>
-
-      <ion-row>
-        <ion-list ion-item *ngFor="let location of locationData; let i = index"
-                  [ngClass]="{'location-selected':location.id===selectedLocationId }"
-                  (click)="toggleItemSelection(location.id)">
-          <div>
-            <p>{{location.name}} </p>
-            <p>Lat: {{location.lat}} </p>
-            <p>Lon: {{location.lng}} </p>
-            <p>Val: {{location.val}} </p>
-          </div>
-
-        </ion-list>
-      </ion-row>
-
     </ion-col>
 
   </ion-row>

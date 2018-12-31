@@ -1,4 +1,5 @@
 import {Component, ElementRef, ViewChild, OnInit, NgZone} from '@angular/core';
+import * as nipplejs from 'nipplejs';
 import {ILocationData} from '../../app/interface/ILocationData';
 import {IMarkerIcon} from '../../app/interface/IMarkerIcon';
 import {AngularGoogleMapService} from '../../app/modules/google-map.module';
@@ -9,6 +10,7 @@ import {AngularGoogleMapService} from '../../app/modules/google-map.module';
 })
 export class HomePage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('joystick') joystickElement: ElementRef;
   map: any;
   google: any;
   currentLocationMarker: any;
@@ -20,6 +22,18 @@ export class HomePage implements OnInit {
   currentLocationIcon: IMarkerIcon;
 
   constructor(public angularGoogleMapService: AngularGoogleMapService, private zone: NgZone) {
+  }
+
+  ngAfterViewInit() {
+    let options = {
+      zone: this.joystickElement.nativeElement,
+      mode: 'static',
+      position: {left: '50%', top: '22%', bottom: '22%'},
+      color: 'gray',
+      size: 120
+    };
+    nipplejs.create(options);
+
   }
 
   async ngOnInit() {
@@ -63,7 +77,11 @@ export class HomePage implements OnInit {
      */
     this.locationData = [
       {name: 'Pi 12345', lat: 23.2233, lng: 72.6477, val: 5.3, id: 100},
-      {name: 'Pi 78954', lat: 23.1953, lng: 72.6333, val: 5.3, id: 101}
+      {name: 'Pi 12346', lat: 23.2333, lng: 72.6577, val: 5.3, id: 101},
+      {name: 'Pi 12347', lat: 23.2433, lng: 72.6677, val: 5.3, id: 102},
+      {name: 'Pi 78954', lat: 23.1953, lng: 72.6333, val: 5.3, id: 103},
+      {name: 'Pi 78955', lat: 23.2053, lng: 72.6433, val: 5.3, id: 104},
+      {name: 'Pi 78956', lat: 23.2153, lng: 72.6533, val: 5.3, id: 105}
     ];
     this.loadMap();
   }

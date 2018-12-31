@@ -10,13 +10,22 @@ page-home {
     z-index: 5;
   }
   .location-selected {
-    background-color: #8080805c;
+    background-color: rgb(224, 224, 224);
   }
   .full-height {
     height: 100%;
   }
   .virtual-joystick {
-    height: 30%;
-    background: #32db64
+    height: 44%;
+    border-bottom: 1px solid #dedede;
+    margin-bottom: 6px !important;
+  }
+  .location-list {
+    height: 55%;
+    overflow-y: auto !important;
+  }
+  .location-list-view {
+    width: 100%;
+    border-bottom: 1px solid #dedede;
   }
 }
